@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   FDF.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rolevy <rolevy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dumont <dumont@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/09 14:28:28 by rolevy            #+#    #+#             */
-/*   Updated: 2017/09/16 18:16:02 by rolevy           ###   ########.fr       */
+/*   Updated: 2017/09/20 12:39:26 by dumont           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,29 @@ typedef struct      s_map
     t_index         index;
     struct s_map    *next;
 }                   t_map;
+
+typedef struct      s_env
+{
+    int             height;
+    int             width;
+    void            *mlx;
+    void            *env;
+}
+
+typedef  struct     s_bresenham
+{
+    int             e;
+    int             x;
+    int             y;
+    int             max_x;
+    int             max_y;
+    int             dx;
+    int             dy;
+    int             axis;
+    int             other_axis;
+    int             delta_axis;
+    int             delta_other_axis;
+}
 
 t_map       *get_map(char **source);
 
