@@ -6,7 +6,7 @@
 /*   By: rolevy <rolevy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/17 12:01:33 by rolevy            #+#    #+#             */
-/*   Updated: 2017/09/30 15:16:12 by rolevy           ###   ########.fr       */
+/*   Updated: 2017/09/30 15:23:54 by rolevy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ t_bresenham     bresenham_init(t_bresenham ref, t_index a, t_index b)
     printf("[OK] ref.offset\n");
     ref.error = 0.0;
     printf("[OK] ref.error\n");
-    ref.error = ref.delta;
+    ref.error = ref.delta;  
     ref.dx = b.index_x - a.index_x;
     ref.dy = b.index_y - a.index_y;
     return (ref);
