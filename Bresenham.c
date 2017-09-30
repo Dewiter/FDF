@@ -6,7 +6,7 @@
 /*   By: rolevy <rolevy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/17 12:01:33 by rolevy            #+#    #+#             */
-/*   Updated: 2017/09/30 15:23:54 by rolevy           ###   ########.fr       */
+/*   Updated: 2017/09/30 17:15:29 by rolevy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,29 +15,58 @@
 
 static void            draw(t_bresenham ref, t_env env)
 {
-    while (ref.x < ref.max_x)
+    int i;
+    int j;
+    
+    i = 0;
+    j = 0;
+    if (ref.dir_x < 0)
+    {
+        printf(YELLOW);
+        printf("[DIR of x is neg]\n");
+        i = -ref.dx;
+    }
+    if (ref.dir_y < 0)
+    {
+        printf(YELLOW);
+        printf("[DIR of y is neg]\n");
+        j = -ref.dy;
+    }
+    while (i < ref.dx)
     {
         mlx_pixel_put(env.mlx, env.win, ref.x, ref.y, 0xFFFFFF);
-        if ((ref.error)++ >= 0.5)
+        if (ref.error++ >= 0 && j < ref.dy) 
         {
-            printf(BLUE);
-            printf("Values of [y] : %d\n", ref.y);
-            (ref.y)++;
+            j++;
+            ref.y++;
             ref.error += ref.offset;
         }
-        printf(BLUE);
-        printf("Values of [x] : %d\n", ref.x);
-        (ref.x)++;
+        i++;
+        ref.x++;
     }
 }
 
 
-t_bresenham     bresenham_init(t_bresenham ref, t_index a, t_index b)
+static t_bresenham      set_dir(t_bresenham ref)
 {
-    ref.x = a.index_x;
-    ref.y = a.index_y;
-    ref.max_x = b.index_x;
-    ref.max_y = b.index_y;
+    if (ref.x < ref.max_x && ref.y < ref.max_y)
+    {
+        ref.dir_x = 1;
+        ref.dir_y = 1;
+    }
+    if (ref.x < ref.max_x)
+        ref.dir_x = -1;
+    if (ref.y < ref.max_y)
+        ref.dir_y = -1;
+    return (ref);
+}
+
+static t_bresenham      bresenham_init(t_bresenham ref, t_point a, t_point b)
+{
+    ref.x = a.x;
+    ref.y = a.y;
+    ref.max_x = b.x;
+    ref.max_y = b.y;
     printf(GREEN);
     ref.delta = (ref.dy) / (ref.dx);
     printf("[OK] ref.delta\n");
@@ -46,12 +75,12 @@ t_bresenham     bresenham_init(t_bresenham ref, t_index a, t_index b)
     ref.error = 0.0;
     printf("[OK] ref.error\n");
     ref.error = ref.delta;  
-    ref.dx = b.index_x - a.index_x;
-    ref.dy = b.index_y - a.index_y;
+    ref.dx = b.x - a.x;
+    ref.dy = b.y - a.y;
     return (ref);
 }
 
-void    Bresenham(t_index a, t_index b, t_env env)
+void    Bresenham(t_point a, t_point b, t_env env)
 {
     t_bresenham ref;
 
@@ -65,6 +94,11 @@ void    Bresenham(t_index a, t_index b, t_env env)
     printf(GREEN);
     printf("[OK] Values\n");
     printf(YELLOW);
+    printf("[Setting DIR]\n");
+    ref = set_dir(ref);
+    printf(GREEN);
+    printf("[OK] DIR\n");
+    printf(YELLOW);
     printf("[Drawing ...]\n");
     draw(ref, env);
     printf(GREEN);
@@ -75,20 +109,18 @@ int main(int ac, char **av)
 {
     (void)ac;
 
-    t_index a;
-    t_index b;
+    t_point a;
+    t_point b;
     t_env env;
 
-    a.index_z = 0;
-    b.index_z = 0;
-    a.index_x = atoi(av[1]);
-    a.index_y = atoi(av[2]);
-    b.index_x = atoi(av[3]);
-    b.index_y = atoi(av[4]);
+    a.z = 0;
+    b.z = 0;
+    a.x = atoi(av[1]);
+    a.y = atoi(av[2]);
+    b.x = atoi(av[3]);
+    b.y = atoi(av[4]);
     env.mlx = mlx_init();
     env.win = mlx_new_window(env.mlx, 800, 800, "FDF");
-    a.index_x++;
-    a.index_y++;
     Bresenham(a, b, env);
     mlx_loop(env.mlx);
 }

@@ -6,7 +6,7 @@
 /*   By: rolevy <rolevy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/09 14:28:28 by rolevy            #+#    #+#             */
-/*   Updated: 2017/09/30 15:04:32 by rolevy           ###   ########.fr       */
+/*   Updated: 2017/09/30 17:08:49 by rolevy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,25 +16,39 @@
 
 # include "source/minilibx/mlx.h"
 
+/*
+*** Color syntax macros
+*/
+
 # define RED        "\x1B[31m"
 # define GREEN      "\x1B[32m"
 # define YELLOW     "\x1B[33m"
 # define BLUE       "\x1B[34m"
 
-typedef struct      s_index
+
+
+typedef struct      s_point
 {
-    int             index_x;
-    int             index_y;
-    int             index_z;    
-}                   t_index;
+    int             x;
+    int             y;
+    int             z;    
+}                   t_point;
+
+/*
+*** Map stats
+*/
 
 typedef struct      s_map
 {
     char            *raw;
-    t_index         index;
+    t_point         index;
     struct s_map    *next;
 }                   t_map;
               
+
+/*
+***  Environement strutcure
+*/
 
 typedef struct      s_env
 {
@@ -44,17 +58,21 @@ typedef struct      s_env
     void            *win;
 }                   t_env;
 
+/*
+*** Bresenham Strcuture
+*/
+
 typedef  struct     s_bresenham
 {
-    int             e;
     int             x;
     int             y;
     int             max_x;
     int             max_y;
-    int             max_axis;
+    int             offset;
+    int             dir_x;
+    int             dir_y;
     double          dx;
     double          dy;
-    int             offset;
     double          delta;
     double          error;
 }                   t_bresenham;
