@@ -6,256 +6,89 @@
 /*   By: rolevy <rolevy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/17 12:01:33 by rolevy            #+#    #+#             */
-/*   Updated: 2017/09/17 17:43:22 by rolevy           ###   ########.fr       */
+/*   Updated: 2017/09/30 15:16:12 by rolevy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "FDF.h"
 
-void    bresenham_right (int dx, int dy, t_index a, t_index b, void *mlx, void *win)
-{
-    int e;
-    int x;
-    int y;
 
-    x = a.index_x;
-    y = a.index_y;
-    if (dy > 0)
+static void            draw(t_bresenham ref, t_env env)
+{
+    while (ref.x < ref.max_x)
     {
-        if (dx >= dy)
+        mlx_pixel_put(env.mlx, env.win, ref.x, ref.y, 0xFFFFFF);
+        if ((ref.error)++ >= 0.5)
         {
-            dx = (e = dx) * 2;
-            dy *= 2;
-            while (1)
-            {
-                mlx_pixel_put(mlx, win, x, y, 0xFFFFFF);
-                if (x++ == b.index_x)
-                    break;
-                if ((e -= dy) < 0)
-                {
-                    y++;
-                    e += dx;
-                }
-            }
+            printf(BLUE);
+            printf("Values of [y] : %d\n", ref.y);
+            (ref.y)++;
+            ref.error += ref.offset;
         }
-        else
-        {
-            dy = (e = dy) * 2;
-            dx *= 2;
-            while (1)
-            {
-                mlx_pixel_put(mlx, win, x, y, 0xFFFFFF);
-                if (y++ == b.index_x)
-                    break;
-                if ((e -= dx) < 0)
-                {
-                    x++;
-                    e += dy;
-                }
-            }
-        }
-    }
-    else if (dy < 0)
-    {
-        if (dx >= -dy)
-        {
-            printf("3\n");
-            dx = (e = dx) * 2;
-            dy *= 2;
-            while (1)
-            {
-                mlx_pixel_put(mlx, win, x, y, 0xFFFFFF);
-                if (x++ == b.index_x)
-                    break;
-                if ((e += dy) < 0)
-                {
-                    y--;
-                    e += dx;
-                }
-            }
-        }
-        else
-        {
-            printf("2\n");
-            dy = (e = dy) * 2;
-            dx *= 2;
-            while (1)
-            {
-                mlx_pixel_put(mlx, win, x, y, 0xFFFFFF);
-                if (y-- == b.index_y)
-                    break;
-                if ((e += dx) > 0)
-                {
-                    x++;
-                    e += dx;
-                }
-            }
-        }
-    }
-    else if (dy == 0)
-    {
-        while (x++ <= b.index_x)
-        {
-            mlx_pixel_put(mlx, win, x, y, 0xFFFFFF);
-            x++;
-        }
+        printf(BLUE);
+        printf("Values of [x] : %d\n", ref.x);
+        (ref.x)++;
     }
 }
 
-void    bresenham_left(int dx, int dy, t_index a, t_index b, void *mlx, void *win)
+
+t_bresenham     bresenham_init(t_bresenham ref, t_index a, t_index b)
 {
-    int e;
-    int x;
-    int y;
-    
-    x  = a.index_x;
-    y = a.index_y;
-    if (dy > 0)
-    {
-        if (-dx >= dy)
-        {
-            dx = (e = dx) * 2;
-            dy *= 2;
-            while (1)
-            {
-                mlx_pixel_put(mlx, win, x, y, 0xFFFFFF);
-                if (x-- == b.index_x)
-                    break;
-                if ((e += dy) >= 0)
-                {
-                    y++;
-                    e += dx;
-                }
-            }
-        }
-        else
-        {
-            dy = (e = dy) * 2;
-            dx *= 2;
-            while (1)
-            {
-                mlx_pixel_put(mlx, win, x, y, 0xFFFFFF);
-                if (y++ == b.index_y)
-                    break;
-                if ((e += dx) <= 0)
-                {
-                    x--;
-                    e += dy;
-                }
-            }
-        }
-        if (dy < 0)
-        {
-            if (dx <= dy)
-            {
-                dx = (e = dx) * 2;
-                dy *= 2;
-                while (1)
-                {
-                    mlx_pixel_put(mlx, win, x, y, 0xFFFFFF);
-                    if (x-- == b.index_x)
-                        break;
-                    if ((e -= dy) >= 0)
-                    {
-                        y--;
-                        e += dx;
-                    }
-                }
-            }
-            else
-            {
-                dy = (e = dy) * 2;
-                dx *= 2;
-                while (1)
-                {
-                    mlx_pixel_put(mlx, win, x, y, 0xFFFFFF);
-                    if (y-- == b.index_y)
-                        break;
-                    if ((e -= dx) >= 0)
-                    {
-                        x--;
-                        e += dy;
-                    }
-                }
-            }
-        }
-        if (dy == 0)
-        {
-            while (x >= b.index_x)
-            {
-                mlx_pixel_put(mlx, win, x, y, 0xFFFFFF);
-                x--;
-            }
-        }
-    }
+    ref.x = a.index_x;
+    ref.y = a.index_y;
+    ref.max_x = b.index_x;
+    ref.max_y = b.index_y;
+    printf(GREEN);
+    ref.delta = (ref.dy) / (ref.dx);
+    printf("[OK] ref.delta\n");
+    ref.offset = -1.0;
+    printf("[OK] ref.offset\n");
+    ref.error = 0.0;
+    printf("[OK] ref.error\n");
+    ref.error = ref.delta;
+    ref.dx = b.index_x - a.index_x;
+    ref.dy = b.index_y - a.index_y;
+    return (ref);
 }
 
-void    bresenham_verticale(int dx, int dy, t_index a, t_index b, void *mlx, void *win)
+void    Bresenham(t_index a, t_index b, t_env env)
 {
-    int x;
-    int y;
+    t_bresenham ref;
 
-    printf("1\n");
-    x = a.index_x;
-    y = a.index_y;
-    if (dy > 0)
-    {
-        while (y <= b.index_y)
-        {
-            mlx_pixel_put(mlx, win, x, y, 0xFFFFFF);
-            y++;
-        }
-    }
-    if (dy < 0)
-    {
-        while (y >= b.index_y)
-        {
-            mlx_pixel_put(mlx, win, x, y, 0xFFFFFF);
-            y--;
-        }
-    }
-}
+    printf(YELLOW);
+    printf("[Setting environement ...] \n");
+    printf(GREEN);
+    printf("[OK] Environement\n");
+    printf(YELLOW);
+    printf("[Setting values for current points ...]\n");
+    ref = bresenham_init(ref, a, b);
+    printf(GREEN);
+    printf("[OK] Values\n");
+    printf(YELLOW);
+    printf("[Drawing ...]\n");
+    draw(ref, env);
+    printf(GREEN);
+    printf("Finished !\n");
 
-void    Bresenham(t_index a, t_index b, void *mlx, void *win)
-{
-    int dx;
-    int dy;
-
-    dx = b.index_x - a.index_x;
-    dy = b.index_y - a.index_y;
-    if (dx != 0)
-    {
-        if (dx > 0)
-            bresenham_right(dx, dy, a, b, mlx, win);
-        else if (dx < 0)
-            bresenham_left(dx, dy, a, b, mlx, win);
-        else if (dx == 0)
-        {
-            printf("1\n");
-            bresenham_verticale(dx, dy, a, b, mlx, win);
-        }
-    }
 }
 int main(int ac, char **av)
 {
     (void)ac;
-    void *mlx;
-    void *win;
 
     t_index a;
     t_index b;
+    t_env env;
 
     a.index_z = 0;
     b.index_z = 0;
-    a.index_x = ft_atoi(av[1]);
-    a.index_y = ft_atoi(av[2]);
-    b.index_x = ft_atoi(av[3]);
-    b.index_y = ft_atoi(av[4]);
-    mlx = mlx_init();
-    win = mlx_new_window(mlx, 1000, 1000, "FDF");
-    mlx_pixel_put(mlx, win, a.index_x, a.index_y, 0xFF0000);
+    a.index_x = atoi(av[1]);
+    a.index_y = atoi(av[2]);
+    b.index_x = atoi(av[3]);
+    b.index_y = atoi(av[4]);
+    env.mlx = mlx_init();
+    env.win = mlx_new_window(env.mlx, 800, 800, "FDF");
     a.index_x++;
     a.index_y++;
-    Bresenham(a, b, mlx, win);
-    mlx_loop(mlx);
+    Bresenham(a, b, env);
+    mlx_loop(env.mlx);
 }
