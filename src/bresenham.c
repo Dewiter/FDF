@@ -6,7 +6,7 @@
 /*   By: rolevy <rolevy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/17 12:01:33 by rolevy            #+#    #+#             */
-/*   Updated: 2017/10/01 17:06:23 by rolevy           ###   ########.fr       */
+/*   Updated: 2017/10/01 17:18:17 by rolevy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,5 +103,4 @@ void                    bresenham(t_point a, t_point b, t_env env)
     draw(ref, env);
     printf(GREEN);
     printf("Finished !\n");
-
 }

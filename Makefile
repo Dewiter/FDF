@@ -1,53 +1,66 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: rolevy <rolevy@student.42.fr>              +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2017/09/30 17:20:01 by rolevy            #+#    #+#              #
-#    Updated: 2017/09/30 17:44:21 by rolevy           ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
+# ************************************************************************************* #
+#                                                                              			#
+#                                                         :::      ::::::::    			#
+#    Makefile                                           :+:      :+:    :+:    			#
+#                                                     +:+ +:+         +:+      			#
+#    By: rolevy <rolevy@student.42.fr>              +#+  +:+       +#+         			#
+#                                                 +#+#+#+#+#+   +#+            			#
+#    Created: 2017/10/01 12:39:14 by rolevy            #+#    #+#              			#
+#    Updated: 2017/10/01 13:56:48 by rolevy           ###   ########.fr        #
+#                                                                              			#
+# ************************************************************************************* #
+
+
+# ===================================================================================== #
+#								   Variable												#
+# ===================================================================================== #
 
 NAME		= fdf
+
 CC			= clang
+FRAMEWORK	= -framework OpenGL -framework Appkit
 
-FLAGS		= -framework OpenGL -framework AppKit
-CFLAG		= -O3 -Wall -Werror -Wextra
+SRC			=	bresenham.c	\
+				main.c		\
+				env.c		
 
-PATH_SRC	= script/
+INC			= fdf.h
+
+PATH_SRC	= src/
 PATH_INC	= includes/
-PATH_MAPS	= Maps/
+PATH_LIB	= source/libft/
+PATH_MLX	= source/minilibx/
+PATH_DUMP	= dump/
 
-PATH_LIB	= ./source/libft/
-PATH_GNL	= source/GNL/
-PATH_MLX	= source/minilibx
-
-VPATH = $(PATH_SRC):$(PATH_MAPS):$(PATH_INC)
-
-SHELL = /bin/sh
-
-SRC = Bresenham.c
+MAKE_LIB 	= 1
 
 SRC_O = $(SRC:.c=.o)
-ARG_O = $(addprefix $(PATH_MAPS),$(notdir $(SRC:.c=.o)))
+ARG_O = $(addprefix $(PATH_DUMP),$(notdir $(SRC:.c=.o)))
 
-KO = "\033[34m[\033[31m ✘ \033[34m] "
+# ===================================================================================== #
+#									Strings												#
+# ===================================================================================== #
+
 OK = "\033[34m[\033[36m ✓ \033[34m] "
-HD = "\033[34m[\033[35mFDF\033[34m] "
-RM = "\033[1A\033[K"
+KO = "\033[34m[\033[31m ✘ \033[34m] "
+HD = "\033[34m[\033[95mFDF\033[34m] "
+
+# ===================================================================================== #
+#									Path												#
+# ===================================================================================== #
 
 vpath %.c $(PATH_SRC)
-vpath %.o $(PATH_MAPS)
+vpath %.o $(PATH_DUMP)
 vpath %.h $(PATH_INC)
 
+# ===================================================================================== #
+#									Process												#
+# ===================================================================================== #
 
-$(NAME): $(SRC_O)
-	@make -C libft
+$(NAME) : $(SRC_O) $(PATH_LIB)
+	@make -C $(PATH_LIB)
 	@printf $(OK)"> \033[36mGenrating binary...\033[0m\n"
-	@$(CC) -o $(NAME) $(PATH_GNL)get_next_line.c $(PATH_LIB)libft.a \
-		$(PATH_MLX)libmlx.a $(ARG_O) $(FLAGS) $(CFLAG)
+	@$(CC) -o $(NAME) $(PATH_LIB)libft.a $(PATH_MLX)libmlx.a $(ARG_O) $(FRAMEWORK)
 	@if [ $$? ]; \
 	then \
 		printf "\033[34m[\033[35mSUCCESS\033[34m] \033[32mBin generated!\n\033[0m"; \
@@ -55,28 +68,36 @@ $(NAME): $(SRC_O)
 		printf $(KO); \
 	fi;
 
-all: $(NAME)
+all : $(NAME)
 
-%.o: %.c | $(PATH_MAPS)
-	@$(CC) -o $(PATH_MAPS)$@ -c $< $(CFLAG)
-	@if [ $$? ]; \
-	then \
-		printf $(HD)$(OK)"\033[32m$@ \033[0m\n"; \
-	else \
-		printf "\033["; \
-		printf $(HD)$(KO)"\033[90m* \033[36m$@\n"; \
+
+%.o : %.c $(INC) $(PATH_DUMP)
+	@$(CC) -c $< -o $(PATH_DUMP)$@
+	@if [ $$? ];	\
+	then 			\
+		printf $(HD)$(OK)"\033[32m$@ \033[0m\n";	\
+	else			\
+		printf $(HD)$(KO)"\033[90m* \033[36m$@\n";	\
 	fi;
 
-$(PATH_MAPS):
+$(PATH_DUMP) :
 	@mkdir $@
 
-clean:
+clean :
+	@if [ !$(MAKE_LIB) ];	\
+	then					\
+		make -C $(PATH_LIB) clean;	\
+	fi;
 	@rm -f $(ARG_O)
 	@printf $(HD)$(OK)"\033[32mFiles cleaned\n"
 
-fclean: clean
-	@make -C libft fclean
+fclean : clean
+	@rm -f $(ARG_O)
+	@if [ !$(MAKE_LIB) ];	\
+	then					\
+		make -C $(PATH_LIB) fclean;	\
+	fi;
 	@rm -f $(NAME)
 	@printf $(HD)$(OK)"\033[32mBinary cleaned\n"
 
-re: fclean all
+re : fclean all

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   FDF.h                                              :+:      :+:    :+:   */
+/*   fdf.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rolevy <rolevy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/09 14:28:28 by rolevy            #+#    #+#             */
-/*   Updated: 2017/09/30 17:32:22 by rolevy           ###   ########.fr       */
+/*   Updated: 2017/10/01 17:08:04 by rolevy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 # define FDF_H
 
 # include "../source/minilibx/mlx.h"
+# include <stdio.h>
 
 /*
 *** Color syntax macros
@@ -78,6 +79,7 @@ typedef  struct     s_bresenham
 }                   t_bresenham;
 
 t_map               *get_map(char **source);
-void                bresenham_right(t_bresenham ref, t_env);
+t_env               create_env(t_env env);
+void                bresenham(t_point, t_point b, t_env);
 
 #endif

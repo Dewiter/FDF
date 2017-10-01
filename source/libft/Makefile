@@ -6,14 +6,13 @@
 #    By: rolevy <rolevy@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/04/11 20:25:27 by rolevy            #+#    #+#              #
-#    Updated: 2017/04/24 17:50:46 by rolevy           ###   ########.fr        #
+#    Updated: 2017/10/01 12:45:32 by rolevy           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC		= gcc
 
-SRC 	= 	ft_abs.c		\
-			ft_atoi.c		\
+SRC 	=	ft_atoi.c		\
 			ft_bzero.c		\
 			ft_isalnum.c 	\
 			ft_isalpha.c 	\
