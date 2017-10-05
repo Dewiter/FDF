@@ -6,7 +6,7 @@
 /*   By: rolevy <rolevy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/09 14:28:28 by rolevy            #+#    #+#             */
-/*   Updated: 2017/10/05 14:10:47 by rolevy           ###   ########.fr       */
+/*   Updated: 2017/10/05 16:13:11 by suddin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ typedef struct  s_img
     void        *img_ptr;
     char        *img_str;
     int        bpp;
-    int        y;       
+    int        y;
     int        x;
     int        l;
     int         endian;
@@ -89,7 +89,7 @@ typedef  struct     s_bresenham
 {
     int             offset;
     double          delta;
-    int             eps;
+    int         	eps;
 }                   t_bres;
 
 t_map               *get_map(char **source);
