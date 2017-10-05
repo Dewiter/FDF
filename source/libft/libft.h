@@ -6,7 +6,7 @@
 /*   By: rolevy <rolevy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/11 12:11:05 by rolevy            #+#    #+#             */
-/*   Updated: 2017/09/16 15:15:16 by rolevy           ###   ########.fr       */
+/*   Updated: 2017/10/02 11:25:31 by rolevy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,14 +138,5 @@ t_list				*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem));
 int					ft_abs(int nb);
 int					ft_sqrt(int nb);
 int					ft_power(int nb, int power);
-
-/*
-**	Graphic
-*/
-
-# define RED 	"red"
-# define GREEN 	"green"
-# define BLUE 	"blue"
-
 
 #endif

@@ -6,46 +6,43 @@
 /*   By: rolevy <rolevy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/09 14:28:28 by rolevy            #+#    #+#             */
-/*   Updated: 2017/10/01 17:08:04 by rolevy           ###   ########.fr       */
+/*   Updated: 2017/10/05 14:10:47 by rolevy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef FDF_H
 # define FDF_H
 
 # include "../source/minilibx/mlx.h"
+# include "../source/libft/libft.h"
 # include <stdio.h>
 
 /*
-*** Color syntax macros
+*** Color macros
 */
 
-# define RED        "\x1B[31m"
 # define GREEN      "\x1B[32m"
 # define YELLOW     "\x1B[33m"
 # define BLUE       "\x1B[34m"
+# define MAG        "\x1B[35m"
 
-
-
-typedef struct      s_point
+typedef struct  s_point
 {
-    int             x;
-    int             y;
-    int             z;    
-}                   t_point;
+    int         x;
+    int         y;
+    int         z;
+}               t_point;
 
 /*
 *** Map stats
 */
 
-typedef struct      s_map
+typedef struct  s_map
 {
     char            *raw;
     t_point         index;
     struct s_map    *next;
 }                   t_map;
-              
 
 /*
 ***  Environement strutcure
@@ -59,27 +56,46 @@ typedef struct      s_env
     void            *win;
 }                   t_env;
 
+typedef struct  s_img
+{
+    void        *img_ptr;
+    char        *img_str;
+    int        bpp;
+    int        y;       
+    int        x;
+    int        l;
+    int         endian;
+}               t_img;
+
 /*
 *** Bresenham Strcuture
 */
+typedef struct s_sub_color
+{
+    int			r;
+    int			g;
+    int			b;
+    int			alpha;
+}               t_sub_color;
+
+typedef union	u_color
+{
+	int         color;
+    t_sub_color s;
+}               t_color;
+
 
 typedef  struct     s_bresenham
 {
-    int             x;
-    int             y;
-    int             max_x;
-    int             max_y;
     int             offset;
-    int             dir_x;
-    int             dir_y;
-    double          dx;
-    double          dy;
     double          delta;
-    double          error;
-}                   t_bresenham;
+    int             eps;
+}                   t_bres;
 
 t_map               *get_map(char **source);
 t_env               create_env(t_env env);
 void                bresenham(t_point, t_point b, t_env);
+t_img           	create_img(t_img img, t_env env, int x, int y);
+void                set_pixel(t_img *img, t_point point, int color);
 
 #endif

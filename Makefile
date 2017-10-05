@@ -22,7 +22,8 @@ FRAMEWORK	= -framework OpenGL -framework Appkit
 
 SRC			=	bresenham.c	\
 				main.c		\
-				env.c		
+				env.c		\
+				draw.c		\
 
 INC			= fdf.h
 
