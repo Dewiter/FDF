@@ -18,19 +18,24 @@
 NAME		= fdf
 
 CC			= clang
+SANITIZE	= -fsanitize=address
 FRAMEWORK	= -framework OpenGL -framework Appkit
 
-SRC			=	bresenham.c	\
-				main.c		\
-				env.c		\
-				draw.c		\
+SRC			=	draw_line.c		\
+				main.c			\
+				env.c			\
+				draw.c			\
+				parser.c		\
+				get_map_stat.c	\
 
 INC			= fdf.h
 
 PATH_SRC	= src/
+PATH_MAPS	= Maps/
 PATH_INC	= includes/
 PATH_LIB	= source/libft/
 PATH_MLX	= source/minilibx/
+PATH_GNL	= source/GNL/
 PATH_DUMP	= dump/
 
 MAKE_LIB 	= 1
@@ -61,7 +66,8 @@ vpath %.h $(PATH_INC)
 $(NAME) : $(SRC_O) $(PATH_LIB)
 	@make -C $(PATH_LIB)
 	@printf $(OK)"> \033[36mGenrating binary...\033[0m\n"
-	@$(CC) -o $(NAME) $(PATH_LIB)libft.a $(PATH_MLX)libmlx.a $(ARG_O) $(FRAMEWORK)
+	@$(CC) -o $(NAME) $(SANITIZE) $(PATH_LIB)libft.a $(PATH_MLX)libmlx.a $(PATH_GNL)get_next_line.c \
+			$(ARG_O) $(FRAMEWORK)
 	@if [ $$? ]; \
 	then \
 		printf "\033[34m[\033[35mSUCCESS\033[34m] \033[32mBin generated!\n\033[0m"; \
@@ -100,5 +106,8 @@ fclean : clean
 	fi;
 	@rm -f $(NAME)
 	@printf $(HD)$(OK)"\033[32mBinary cleaned\n"
+
+exec :
+	./$(NAME) $(PATH_MAPS)/10-2.fdf
 
 re : fclean all

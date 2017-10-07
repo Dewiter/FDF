@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbeilles <mbeilles@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rolevy <rolevy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/13 17:22:36 by mbeilles          #+#    #+#             */
-/*   Updated: 2017/05/13 16:55:08 by rolevy           ###   ########.fr       */
+/*   Updated: 2017/10/06 13:31:57 by rolevy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,10 @@
 # define BUFF_SIZE 32
 
 # include <string.h>
-# include "libft/libft.h"
+# include <stdlib.h>
+# include <unistd.h>
+# include <fcntl.h>
+# include "../libft/libft.h"
 
 typedef struct	s_fd_buffer
 {

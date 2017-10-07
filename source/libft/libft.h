@@ -6,7 +6,7 @@
 /*   By: rolevy <rolevy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/11 12:11:05 by rolevy            #+#    #+#             */
-/*   Updated: 2017/10/02 11:25:31 by rolevy           ###   ########.fr       */
+/*   Updated: 2017/10/06 17:42:43 by rolevy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ int					ft_isascii(int c);
 int					ft_isdigit(int c);
 int					ft_isalpha(int c);
 int					ft_isprint(int c);
+int					ft_isspace(int c);
 int					ft_isalnum(int c);
 
 /*

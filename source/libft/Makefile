@@ -6,7 +6,7 @@
 #    By: rolevy <rolevy@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/04/11 20:25:27 by rolevy            #+#    #+#              #
-#    Updated: 2017/10/01 12:45:32 by rolevy           ###   ########.fr        #
+#    Updated: 2017/10/06 17:42:11 by rolevy           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,7 @@ SRC 	=	ft_atoi.c		\
 			ft_isascii.c	\
 			ft_isdigit.c 	\
 			ft_isprint.c 	\
+			ft_isspace.c	\
 			ft_itoa.c		\
 			ft_lstadd.c		\
 			ft_lstdel.c		\

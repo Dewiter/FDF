@@ -6,7 +6,7 @@
 /*   By: rolevy <rolevy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/01 16:54:33 by rolevy            #+#    #+#             */
-/*   Updated: 2017/10/05 14:00:09 by rolevy           ###   ########.fr       */
+/*   Updated: 2017/10/07 17:03:42 by rolevy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,14 @@
 
 int		main(int ac, char **av)
 {
-    t_point a;
-    t_point b;
-	t_env env;
+	t_env	env;
+	t_color	color;
+	t_map	*map;
 
 	(void)ac;
-
-    a.x = ft_atoi(av[1]);
-    a.y = ft_atoi(av[2]);
-    b.x = ft_atoi(av[3]);
-    b.y = ft_atoi(av[4]);
-
 	env = create_env(env);
-	bresenham(a, b, env);
+	color = set_color(255, 0, 0);
+	map = parse(av);
+	// dda_init(a, b, env, color);
 	mlx_loop(env.mlx);
 }

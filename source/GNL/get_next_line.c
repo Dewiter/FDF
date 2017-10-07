@@ -3,18 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbeilles <mbeilles@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rolevy <rolevy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/24 19:15:34 by mbeilles          #+#    #+#             */
-/*   Updated: 2017/05/13 16:53:18 by rolevy           ###   ########.fr       */
+/*   Updated: 2017/10/06 13:31:47 by rolevy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include <unistd.h>
-#include <fcntl.h>
 #include "get_next_line.h"
-#include "libft/libft.h"
 
 static size_t			ft_getic(char const *buff, char c, int *f)
 {
