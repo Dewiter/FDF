@@ -6,7 +6,7 @@
 /*   By: rolevy <rolevy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/01 16:54:33 by rolevy            #+#    #+#             */
-/*   Updated: 2017/10/07 17:03:42 by rolevy           ###   ########.fr       */
+/*   Updated: 2017/10/09 14:59:06 by rolevy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,6 @@ int		main(int ac, char **av)
 	env = create_env(env);
 	color = set_color(255, 0, 0);
 	map = parse(av);
-	// dda_init(a, b, env, color);
+	dda_init(map, env, color);
 	mlx_loop(env.mlx);
 }

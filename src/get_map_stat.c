@@ -6,33 +6,28 @@
 /*   By: rolevy <rolevy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/07 15:39:21 by rolevy            #+#    #+#             */
-/*   Updated: 2017/10/07 17:10:28 by rolevy           ###   ########.fr       */
+/*   Updated: 2017/10/09 12:36:19 by rolevy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fdf.h"
 
-int		get_map_size(int size, int fd, char **ref)
+int		get_map_size(int size, int fd, char *file)
 {
-	char	*file;
 	int		i;
-	
-	fd = open(ref[1], O_RDONLY);
+	int		check;
+
 	size = 0;
-	while (get_next_line(fd, &file))
+	i = 0;
+	if (file[0] >= '0' && file[i] <= '9')
+		size++;
+	while (file[i] != '\0')
 	{
-		i = 0;
-		if (file[0] >= '0' && file[0] <= '9')
+		if ((!ft_isspace(file[i - 1]) || file[i - 1] == '-')
+		&& (file[i] >= '0' && file[i] <= '9'))
 			size++;
-		while (i <= ft_strlen(file))
-		{
-			if ((!ft_isspace(file[i - 1]) || file[i - 1] == '-')
-			&& (file[i] >= '0' && file[i] <= '9'))
-				size++;
-			i++;
-		}
+		i++;
 	}
-	close(fd);
 	return (size);
 }
 
