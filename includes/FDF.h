@@ -6,7 +6,7 @@
 /*   By: rolevy <rolevy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/09 14:28:28 by rolevy            #+#    #+#             */
-/*   Updated: 2017/10/09 15:03:11 by rolevy           ###   ########.fr       */
+/*   Updated: 2017/10/13 17:47:36 by rolevy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,13 @@ typedef	struct		s_fpoint
 	struct s_fpoint	*next;
 }					t_fpoint;
 
+typedef struct		s_line
+{
+	t_fpoint		*origin;
+	t_fpoint		*end;
+	struct s_line	*next;
+}					t_line;
+
 /*
 *** ----------------- Map -----------------------------
 */
@@ -65,7 +72,7 @@ typedef	struct		s_map
 	int				*width;
 	int				height;
 	char			*raw;
-	t_fpoint		*coords;
+	t_line			*line;
 }					t_map;
 
 /*
@@ -105,14 +112,28 @@ typedef	union		u_color
 *** ----------------- Functions -----------------------
 */
 
+/*
+*** - Parsing 
+*/
 t_map				*get_map(char **source);
-t_env				create_env(t_env env);
-t_img				create_img(t_img img, t_env env, int x, int y);
-void				dda_init(t_map *map, t_env env, t_color col);
-t_color				set_color(int r, int g, int b);
 t_map				*parse(char **file);
-int					get_map_heigth(int height, int fd, char **file);
-int					*get_map_width(int *width, int fd, char **ref);
-int					get_map_size(int size, int fd, char *file);
+t_map				*init_map(t_map *map, int fd, char **ref);
+t_line				*create_lines(t_fpoint *origin, t_fpoint *end);
+void				push_line(t_line **ptr, t_line *elem);
+
+/*
+*** - Environement
+*/
+
+t_env				create_env(t_env env);
+
+/*
+*** - Draw
+*/
+
+void				draw_line(t_map *map, t_color col, t_env env);
+
+t_img				create_img(t_img img, t_env env, int x, int y);
+t_color				set_color(int r, int g, int b);
 
 #endif

@@ -6,48 +6,46 @@
 /*   By: rolevy <rolevy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/17 12:01:33 by rolevy            #+#    #+#             */
-/*   Updated: 2017/10/09 18:53:23 by rolevy           ###   ########.fr       */
+/*   Updated: 2017/10/13 17:48:48 by rolevy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fdf.h"
 
-static inline void			dda(t_color col, t_fpoint a, t_fpoint b, t_img *img,
-							t_env env)
+static inline void		dda_hor(t_line *lines, t_color col, t_env env)
 {
-	float					length;
-	int						i;
-	float					stepx;
- 	float					stepz;
+	float 				x;
+	float				y;
 
-	i = 0;
-	if (b.x - a.x >= b.z - a.z)
-		length = fabsf(b.x - a.x);
-	else
-		length = fabs(b.z - a.z);
-	stepx = (b.x - a.x) / (float)length;
-	stepz = (b.z - a.z) / (float)length;
-	while (i <= length)
+	x = lines->origin->x;
+	y = lines->origin->y;
+	while (x <= lines->end->x)
 	{
-		*(((int *)img->img_str) + (int)(a.x + (a.z * env.width))) = col.color;
-		a.x += stepx;
-		a.z += stepz;
-		i++;
+		mlx_pixel_put(env.mlx, env.win, x, y, col.color);
+		x++;
 	}
 }
 
-void						dda_init(t_map *map, t_env env, t_color col)
+static inline void		dda_ver(t_line *lines, t_color col, t_env env)
 {
-	t_img					img;
-	int						i;
+	float 				x;
+	float				y;
 
-	i = 0;
-	img = create_img(img, env, env.height, env.width);
-	while (i < 20)
+	x = lines->origin->x;
+	y = lines->origin->y;
+	while (x <= lines->end->x)
 	{
-		dda(col, map->coords[i], map->coords[i + 1], &img, env);
-		(map->coords)++;
-		i++;
+		mlx_pixel_put(env.mlx, env.win, y, x, col.color);
+		x++;
 	}
-	mlx_put_image_to_window(env.mlx, env.win, img.img_ptr, 0, 0);
+}
+
+void			draw_line(t_map *map, t_color col, t_env env)
+{
+	while (map->line->next)
+	{
+		dda_hor(map->line, col, env);
+		dda_ver(map->line, col, env);
+		map->line = map->line->next;
+	}
 }

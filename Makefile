@@ -21,12 +21,13 @@ CC			= clang
 SANITIZE	= -fsanitize=address
 FRAMEWORK	= -framework OpenGL -framework Appkit
 
-SRC			=	draw_line.c		\
-				main.c			\
-				env.c			\
-				draw.c			\
-				parser.c		\
-				get_map_stat.c	\
+SRC			=	main.c				\
+				env.c				\
+				parser.c			\
+				get_map_stat.c		\
+				dda.c				\
+				image_creator.c		\
+				line.c				
 
 INC			= fdf.h
 

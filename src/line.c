@@ -1,31 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   draw.c                                             :+:      :+:    :+:   */
+/*   line.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rolevy <rolevy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/10/01 18:42:36 by rolevy            #+#    #+#             */
-/*   Updated: 2017/10/06 14:15:38 by rolevy           ###   ########.fr       */
+/*   Created: 2017/10/13 17:09:56 by rolevy            #+#    #+#             */
+/*   Updated: 2017/10/13 17:30:03 by rolevy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fdf.h"
 
-t_img		create_img(t_img img, t_env env, int x, int y)
+
+void    push_line(t_line **ptr, t_line *elem)
 {
-	img.img_ptr = mlx_new_image(env.mlx, x, y);
-	img.img_str = mlx_get_data_addr(img.img_ptr, &(img.bpp), &(img.l),
-					&(img.endian));
-	img.x = x;
-	img.y = y;
-	return (img);
+    static t_line   *tmp = NULL;
+    
+    if (!(*ptr) || !tmp)
+        *ptr = elem;
+    else
+        tmp->next = elem;
+    tmp = elem;
 }
 
-t_color		set_color(int r, int g, int b)
+t_line  *create_lines(t_fpoint *origin, t_fpoint *end)
 {
-	t_color color;
+    t_line  *line;
 
-	color.color = r + g + b;
-	return (color);
+    line = (t_line *)malloc(sizeof(t_line));
+    line->origin = origin;
+    line->end = end;
+    line->next = NULL;
+    return (line);
 }
