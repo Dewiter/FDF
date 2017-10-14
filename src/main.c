@@ -6,7 +6,7 @@
 /*   By: rolevy <rolevy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/01 16:54:33 by rolevy            #+#    #+#             */
-/*   Updated: 2017/10/14 16:24:14 by rolevy           ###   ########.fr       */
+/*   Updated: 2017/10/14 21:00:50 by rolevy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ int		main(int ac, char **av)
 	if (ac > 0)
 	{
 		env = create_env(env);
-		color = set_color(0, 0, 0, 255);
-		map = parse(av);
+		color = set_color(0, 255, 0, 255);
+		map = parse(av, env);
 		draw_line(map, color, env);
 		mlx_loop(env.mlx);
 	}

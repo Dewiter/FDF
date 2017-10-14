@@ -6,11 +6,15 @@
 /*   By: rolevy <rolevy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/01 16:59:23 by rolevy            #+#    #+#             */
-/*   Updated: 2017/10/14 14:54:43 by rolevy           ###   ########.fr       */
+/*   Updated: 2017/10/14 20:44:16 by rolevy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fdf.h"
+
+/*
+***  - Creating environement -
+*/
 
 t_env		create_env(t_env env)
 {

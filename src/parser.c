@@ -6,79 +6,50 @@
 /*   By: rolevy <rolevy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/06 13:27:26 by rolevy            #+#    #+#             */
-/*   Updated: 2017/10/14 17:42:23 by rolevy           ###   ########.fr       */
+/*   Updated: 2017/10/14 20:41:49 by rolevy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fdf.h"
 
-static inline t_fpoint	*create_point(float x, float y, char *line)
+/*
+*** - Parsing of Map into list of lines -
+*/
+
+static inline void		set_coords(char **file, t_map *map, t_env env)
 {
-	t_fpoint			*point;
-
-	point = (t_fpoint *)malloc(sizeof(t_fpoint));
-	point->x = x;
-	point->y = y;
-	point->z = (float)ft_atoi(line);
-	point->next = NULL;
-	return (point);
-}
-
-static inline void		push_point(t_fpoint **ptr, t_fpoint *elem)
-{
-	t_fpoint			*tmp;
-
-	if (!(*ptr))
-		*ptr = elem;
-	else
-	{
-		tmp = *ptr;
-		while (tmp->next)
-			tmp = tmp->next;
-		tmp->next = elem;
-	}
-}
-
-static inline void		set_coords(char **file,t_map *map)
-{
-	char 				*line;
+	int					fd;
+	char				*line;
+	static t_fpoint		*last = NULL;
 	t_fpoint			*current;
-	int 				fd;
 	static float		tab[2] = {0, 0};
-	static t_fpoint		*last = NULL;	
 
-	fd  = open(file[1], O_RDONLY);
+	fd = open(file[1], O_RDONLY);
 	while (get_next_line(fd, &line) > 0)
 	{
-		current = NULL;
 		tab[0] = 0;
+		current = NULL;
 		while (*line)
 		{
 			if (ft_isdigit(*line) || *line == '-')
-			{
-				push_point(&current, create_point(tab[0], tab[1], line));
-				++tab[0];
-			}	
+				push_point(&current, create_point(tab[0] += 50, tab[1], line));
 			while (ft_isspace(*line))
-				++line;
-			++line;
+				line++;
+			line++;
 		}
-		tab[1]++;
+		tab[1] += 50;
 		create_lines(map, current, last);
-		last = current; 
+		last = current;
 	}
 }
 
-t_map					*parse(char **file)
+t_map					*parse(char **file, t_env env)
 {
-	int					fd;
 	t_map				*map;
-	t_fpoint			*coords;
 	t_line				*list_line;
 	t_line				*line_holder;
 
 	map = (t_map *)malloc(sizeof(t_map));
-	map = init_map(map, fd, file);
-	set_coords(file, map);
+	set_coords(file, map, env);
 	return (map);
 }

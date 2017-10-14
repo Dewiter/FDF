@@ -6,47 +6,46 @@
 /*   By: rolevy <rolevy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/17 12:01:33 by rolevy            #+#    #+#             */
-/*   Updated: 2017/10/14 17:36:15 by rolevy           ###   ########.fr       */
+/*   Updated: 2017/10/14 20:43:07 by rolevy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fdf.h"
 
-static inline void	dda_hor(t_line *lines, t_color col, t_env env)
+/*
+*** - Draw lines using The Digital Differential Analyser -
+*/
+
+static inline void	dda(t_line *lines, t_color col, t_env env)
 {
-	float			x;
-	float			y;
+	float			stepx;
+	float			stepy;
+	int				length;
+	int				i;
 
-	x = lines->origin->x;
-	y = lines->origin->y;
-	while (x <= lines->end->x)
+	if (fabs(lines->end->x - lines->origin->x) >=
+		fabs(lines->end->y - lines->origin->y))
+		length = fabs(lines->end->x - lines->origin->x);
+	else
+		length = fabs(lines->end->y - lines->origin->y);
+	stepx = (lines->end->x - lines->origin->x) / length;
+	stepy = (lines->end->y - lines->origin->y) / length;
+	i = 0;
+	while (i <= length)
 	{
-		mlx_pixel_put(env.mlx, env.win, x, y, col.color);
-		x++;
-		y++;
+		mlx_pixel_put(env.mlx, env.win, lines->origin->x, lines->origin->y
+						, col.color);
+		lines->origin->x += stepx;
+		lines->origin->y += stepy;
+		i++;
 	}
-}
-
-static inline void	dda_ver(t_line *lines, t_color col, t_env env)
-{
-	float			x;
-	float			y;
-
-	x = lines->origin->x;
-	y = lines->origin->y;
-	while (y <= lines->end->y)
-	{
-		mlx_pixel_put(env.mlx, env.win, x, y, col.color);
-		y++;
-	}
-	mlx_pixel_put(env.mlx, env.win, lines->origin->x, lines->origin->y, 0xFFFFFF);
 }
 
 void				draw_line(t_map *map, t_color col, t_env env)
 {
 	while (map->lines->next)
 	{
-		dda_hor(map->lines, col, env);
+		dda(map->lines, col, env);
 		map->lines = map->lines->next;
 	}
 }

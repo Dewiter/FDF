@@ -1,31 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   image_creator.c                                    :+:      :+:    :+:   */
+/*   list_usage.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rolevy <rolevy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/10/01 18:42:36 by rolevy            #+#    #+#             */
-/*   Updated: 2017/10/14 20:59:32 by rolevy           ###   ########.fr       */
+/*   Created: 2017/10/14 20:30:02 by rolevy            #+#    #+#             */
+/*   Updated: 2017/10/14 20:41:56 by rolevy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fdf.h"
 
-t_img		create_img(t_img img, t_env env, int x, int y)
+/*
+***  - Usage for list of points and lines -
+*/
+
+void				push_point(t_fpoint **ptr, t_fpoint *elem)
 {
-	img.img_ptr = mlx_new_image(env.mlx, x, y);
-	img.img_str = mlx_get_data_addr(img.img_ptr, &(img.bpp), &(img.l),
-					&(img.endian));
-	img.x = x;
-	img.y = y;
-	return (img);
+	t_fpoint*tmp;
+
+	if (!(*ptr))
+		*ptr = elem;
+	else
+	{
+		tmp = *ptr;
+		while (tmp->next)
+			tmp = tmp->next;
+		tmp->next = elem;
+	}
 }
 
-t_color		set_color(int r, int g, int b, int a)
+void				push_line(t_line **ptr, t_line *elem)
 {
-	t_color color;
+	static t_line	*tmp = NULL;
 
-	color.color = (r << 16) + (g << 8) + (b) + ((a << 24) * -1);
-	return (color);
+	if (!(*ptr) || !tmp)
+		*ptr = elem;
+	else
+		tmp->next = elem;
+	tmp = elem;
 }

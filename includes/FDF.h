@@ -6,7 +6,7 @@
 /*   By: rolevy <rolevy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/09 14:28:28 by rolevy            #+#    #+#             */
-/*   Updated: 2017/10/14 17:29:34 by rolevy           ###   ########.fr       */
+/*   Updated: 2017/10/14 20:37:51 by rolevy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,14 +114,16 @@ typedef	union		u_color
 */
 
 /*
-*** - Parsing 
+*** - Parsing
 */
 
-t_map				*parse(char **file);
-t_map				*init_map(t_map *map, int fd, char **ref);
+t_map				*parse(char **file, t_env env);
+void				push_point(t_fpoint **ptr, t_fpoint *elem);
+void				push_line(t_line **ptr, t_line *elem);
+t_line				*create_line(t_fpoint *origin, t_fpoint *end);
 void				create_lines(t_map *map, t_fpoint *current
 					, t_fpoint *last);
-void				push_line(t_line **ptr, t_line *elem);
+t_fpoint			*create_point(float x, float y, char *line);
 
 /*
 *** - Environement

@@ -24,10 +24,10 @@ FRAMEWORK	= -framework OpenGL -framework Appkit
 SRC			=	main.c				\
 				env.c				\
 				parser.c			\
-				get_map_stat.c		\
 				dda.c				\
 				image_creator.c		\
-				line.c				
+				create_point_line.c	\
+				list_usage.c		\
 
 INC			= fdf.h
 
