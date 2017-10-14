@@ -6,7 +6,7 @@
 /*   By: rolevy <rolevy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/09 14:28:28 by rolevy            #+#    #+#             */
-/*   Updated: 2017/10/13 17:47:36 by rolevy           ###   ########.fr       */
+/*   Updated: 2017/10/14 17:29:34 by rolevy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,11 +68,12 @@ typedef struct		s_line
 
 typedef	struct		s_map
 {
+	t_line			*lines;
+	t_fpoint		*points;
 	int				size;
 	int				*width;
 	int				height;
 	char			*raw;
-	t_line			*line;
 }					t_map;
 
 /*
@@ -115,10 +116,11 @@ typedef	union		u_color
 /*
 *** - Parsing 
 */
-t_map				*get_map(char **source);
+
 t_map				*parse(char **file);
 t_map				*init_map(t_map *map, int fd, char **ref);
-t_line				*create_lines(t_fpoint *origin, t_fpoint *end);
+void				create_lines(t_map *map, t_fpoint *current
+					, t_fpoint *last);
 void				push_line(t_line **ptr, t_line *elem);
 
 /*
@@ -134,6 +136,6 @@ t_env				create_env(t_env env);
 void				draw_line(t_map *map, t_color col, t_env env);
 
 t_img				create_img(t_img img, t_env env, int x, int y);
-t_color				set_color(int r, int g, int b);
+t_color				set_color(int b, int g, int r, int a);
 
 #endif

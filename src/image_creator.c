@@ -6,7 +6,7 @@
 /*   By: rolevy <rolevy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/01 18:42:36 by rolevy            #+#    #+#             */
-/*   Updated: 2017/10/12 16:27:10 by rolevy           ###   ########.fr       */
+/*   Updated: 2017/10/14 16:21:49 by rolevy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@ t_img		create_img(t_img img, t_env env, int x, int y)
 	return (img);
 }
 
-t_color		set_color(int r, int g, int b)
+t_color		set_color(int b, int g, int r, int a)
 {
 	t_color color;
 
-	color.color = r + g + b;
+	color.color = (b << 24) + (g << 16) + (r << 8) + (a);
 	return (color);
 }

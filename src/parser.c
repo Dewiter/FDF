@@ -6,25 +6,25 @@
 /*   By: rolevy <rolevy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/06 13:27:26 by rolevy            #+#    #+#             */
-/*   Updated: 2017/10/13 17:43:52 by rolevy           ###   ########.fr       */
+/*   Updated: 2017/10/14 17:42:23 by rolevy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fdf.h"
 
-static inline t_fpoint	*create_point(t_fpoint input)
+static inline t_fpoint	*create_point(float x, float y, char *line)
 {
 	t_fpoint			*point;
 
 	point = (t_fpoint *)malloc(sizeof(t_fpoint));
-	point->x = input.x;
-	point->y = input.y;
-	point->z = input.z;
+	point->x = x;
+	point->y = y;
+	point->z = (float)ft_atoi(line);
 	point->next = NULL;
 	return (point);
 }
 
-static inline void		push(t_fpoint **ptr, t_fpoint *elem)
+static inline void		push_point(t_fpoint **ptr, t_fpoint *elem)
 {
 	t_fpoint			*tmp;
 
@@ -39,32 +39,34 @@ static inline void		push(t_fpoint **ptr, t_fpoint *elem)
 	}
 }
 
-static inline t_fpoint	*set_coords(char *file, t_map *map)
+static inline void		set_coords(char **file,t_map *map)
 {
-	t_fpoint			*list_point;
-	t_fpoint			*holder;
-	t_fpoint			point;
+	char 				*line;
+	t_fpoint			*current;
+	int 				fd;
+	static float		tab[2] = {0, 0};
+	static t_fpoint		*last = NULL;	
 
-	point.y = 0;
-	while (*file)
+	fd  = open(file[1], O_RDONLY);
+	while (get_next_line(fd, &line) > 0)
 	{
-		if ((!ft_isspace(*(file - 1)) || *(file - 1) == '-'
-		|| *(file - 1) == '\n') && (*file >= '0' && *file <= '9'))
+		current = NULL;
+		tab[0] = 0;
+		while (*line)
 		{
-			holder = create_point(point);
-			push(&list_point, holder);
-			file++;
-			point.x += 50;
+			if (ft_isdigit(*line) || *line == '-')
+			{
+				push_point(&current, create_point(tab[0], tab[1], line));
+				++tab[0];
+			}	
+			while (ft_isspace(*line))
+				++line;
+			++line;
 		}
-		if (*file == '\n')
-		{
-			point.x = 0;
-			point.y += 50;
-			file++;
-		}
-		file++;
+		tab[1]++;
+		create_lines(map, current, last);
+		last = current; 
 	}
-	return (list_point);
 }
 
 t_map					*parse(char **file)
@@ -77,13 +79,6 @@ t_map					*parse(char **file)
 
 	map = (t_map *)malloc(sizeof(t_map));
 	map = init_map(map, fd, file);
-	coords = set_coords(map->raw, map);
-	while (coords->next)
-	{
-		line_holder = create_lines(coords, coords->next);
-		push_line(&list_line, line_holder);
-		coords = coords->next;
-	}
-	map->line = list_line;
+	set_coords(file, map);
 	return (map);
 }
