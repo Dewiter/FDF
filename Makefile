@@ -18,7 +18,7 @@
 NAME		= fdf
 
 CC			= clang
-SANITIZE	= -fsanitize=address
+SANITIZE	= -fsanitize=address -g3
 FRAMEWORK	= -framework OpenGL -framework Appkit
 
 SRC			=	main.c				\

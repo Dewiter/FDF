@@ -6,14 +6,14 @@
 /*   By: rolevy <rolevy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/14 20:30:02 by rolevy            #+#    #+#             */
-/*   Updated: 2017/10/14 20:41:56 by rolevy           ###   ########.fr       */
+/*   Updated: 2017/10/15 15:07:01 by rolevy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fdf.h"
 
 /*
-***  - Usage for list of points and lines -
+***  - Usage for lists of points and lines -
 */
 
 void				push_point(t_fpoint **ptr, t_fpoint *elem)

@@ -6,7 +6,7 @@
 /*   By: rolevy <rolevy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/14 20:33:36 by rolevy            #+#    #+#             */
-/*   Updated: 2017/10/14 20:47:04 by rolevy           ###   ########.fr       */
+/*   Updated: 2017/10/16 21:20:53 by rolevy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,14 @@ void		create_lines(t_map *map, t_fpoint *current
 	}
 }
 
-t_fpoint	*create_point(float x, float y, char *line)
+t_fpoint	*create_point(int x, int z, char *line)
 {
 	t_fpoint*point;
 
 	point = (t_fpoint *)malloc(sizeof(t_fpoint));
 	point->x = x;
-	point->y = y;
-	point->z = (float)ft_atoi(line);
+	point->y = (int)ft_atoi(line);  
+	point->z = z;
 	point->next = NULL;
 	return (point);
 }
