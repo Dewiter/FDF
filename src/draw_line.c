@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   dda.c                                              :+:      :+:    :+:   */
+/*   draw_line.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rolevy <rolevy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/17 12:01:33 by rolevy            #+#    #+#             */
-/*   Updated: 2017/10/19 19:13:46 by rolevy           ###   ########.fr       */
+/*   Updated: 2017/10/22 15:51:39 by rolevy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,16 @@
 *** - Draw lines using The Digital Differential Analyser -
 */
 
-static inline void			set_pixel(float x, float y, t_img *img, t_color col)
+static inline void			swap(float *a, float *b, float *c, float *d)
 {
-	*((int *)(img->img_str) + (int)((int)x + (int)(y * 1920))) = col.color;
+	float					tmp;
+
+	tmp = *a;
+	*a = *b;
+	*b = tmp;
+	tmp = *c;
+	*c = *d;
+	*d = tmp;
 }
 
 static inline t_dda_data	process_dda(t_line *line, t_map *map)
@@ -43,57 +50,55 @@ static inline t_dda_data	process_dda(t_line *line, t_map *map)
 	data.end.y = ((line->end->x * map->X_3D_Y)
 				+ (line->end->y * map->Y_3D_Y)
 				+ (line->end->z * map->Z_3D_Y))
-				* map->scaling	
+				* map->scaling
 				+ map->offset.y;
-	data.step = (fabsf(data.start.y - data.end.y)) > 
+	data.step = (fabsf(data.start.y - data.end.y)) >
 				(fabsf(data.start.x - data.end.x));
 	return (data);
 }
 
-static inline void			swap(float *a, float *b, float *c, float *d)
+static inline t_bres		set_values(t_bres bres, t_line *lines, t_env env
+							, t_map *map)
 {
-	float					tmp;
+	t_dda_data				data;
 
-	tmp = *a;
-	*a = *b;
-	*b = tmp;
-	tmp = *c;
-	*c = *d;
-	*d = tmp;
+	data = process_dda(lines, map);
+	bres.step = data.step;
+	(data.step) ?
+		swap(&data.start.x, &data.start.y, &data.end.x, &data.end.y) : 0 == 0;
+	(data.start.x > data.end.x) ?
+		swap(&data.end.x, &data.start.x, &data.end.y, &data.start.y) : 0 == 0;
+	bres.tab[0] = data.start.x;
+	bres.tab[1] = data.start.y;
+	bres.tab[2] = data.end.x;
+	bres.tab[3] = data.end.y;
+	bres.tab[4] = fabsf(data.start.x - data.end.x);
+	bres.tab[5] = fabsf(data.start.y - data.end.y);
+	bres.delta = bres.tab[4] / 2.0f;
+	bres.eps = (data.start.y < data.end.y) ? 1 : -1;
+	return (bres);
 }
 
-static inline void			dda(t_line *lines, t_color col, t_env env
-							, t_map *map, t_img *img)
+static inline void			bresenham(t_line *lines, t_color col,
+							t_env env, t_map *map)
 {
-	float					tab[4];
-	t_dda_data				data;
-	float					delta;
-	int						eps;
+	t_bres					bres;
 
-	data = process_dda(lines, map); 
-	(data.step) ? swap(&data.start.x, &data.start.y, &data.end.x, &data.end.y)
-			: 0 == 0;
-	(data.start.x > data.end.x) ?
-		swap(&data.end.x, &data.start.x, &data.end.y, &data.start.y)
-		: 0 == 0;
-	tab[0] = data.start.x;
-	tab[1] = data.start.y;
-	tab[2] = fabsf(data.start.x - data.end.x);
-	tab[3] = fabsf(data.start.y - data.end.y);
-	delta =  tab[2] / 2.0f;
-	eps = (data.start.y < data.end.y) ? 1 : -1;
-	while (tab[0] < data.end.x)
+	bres = set_values(bres, lines, env, map);
+	while (bres.tab[0] < bres.tab[2])
 	{
-		if (data.step)
-			mlx_pixel_put(env.mlx, env.win, tab[1], tab[0], col.color);
+		if (bres.step)
+			mlx_pixel_put(env.mlx, env.win, bres.tab[1],
+							bres.tab[0], col.color);
 		else
-			mlx_pixel_put(env.mlx, env.win, tab[0], tab[1], col.color);
-		tab[0]++;
-		delta -= tab[3];
-		if (delta < 0)
+			mlx_pixel_put(env.mlx, env.win, bres.tab[0],
+							bres.tab[1], col.color);
+		bres.tab[0]++;
+		bres.delta -= bres.tab[5];
+		if (bres.delta < 0)
 		{
-			tab[1] += eps;
-			delta += tab[2];
+			bres.tab[1] += bres.eps;
+			bres.delta += bres.tab[4];
 		}
 	}
 }
@@ -106,7 +111,7 @@ void						draw_line(t_map *map, t_color col, t_env env)
 	line = map->lines;
 	while (line)
 	{
-		dda(line, col, env, map, img);
+		bresenham(line, col, env, map);
 		line = line->next;
 	}
 }

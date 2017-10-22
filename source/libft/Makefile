@@ -6,7 +6,7 @@
 #    By: rolevy <rolevy@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/04/11 20:25:27 by rolevy            #+#    #+#              #
-#    Updated: 2017/10/06 17:42:11 by rolevy           ###   ########.fr        #
+#    Updated: 2017/10/20 18:31:25 by rolevy           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -80,7 +80,7 @@ SRC 	=	ft_atoi.c		\
 OFILE 	= $(SRC:.c=.o)
 
 NAME 	= libft.a
-FLAG	= -Wall -Wextra -Werror
+FLAG	= -Wall -Wextra -Werror -g3
 
 all : $(NAME)
 

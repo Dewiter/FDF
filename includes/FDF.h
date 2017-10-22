@@ -6,7 +6,7 @@
 /*   By: rolevy <rolevy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/09 14:28:28 by rolevy            #+#    #+#             */
-/*   Updated: 2017/10/19 17:43:27 by rolevy           ###   ########.fr       */
+/*   Updated: 2017/10/22 16:01:38 by rolevy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,14 @@
 # define MAG		"\x1B[35m"
 
 /*
-*** ---------------- Matrix macros -------------------- 
+*** ----------------- FDF Colors Macros ---------------
+*/
+
+# define WHITE		255, 255, 255, 255
+# define BLACK		0, 0, 0, 0
+
+/*
+*** ---------------- Matrix macros --------------------
 */
 
 # define X_3D_X		matrix[0][0]
@@ -43,6 +50,17 @@
 # define Z_3D_X		matrix[2][0]
 # define Z_3D_Y		matrix[2][1]
 
+/*
+*** ----------------- Environement --------------------
+*/
+
+typedef	struct		s_env
+{
+	int				height;
+	int				width;
+	void			*mlx;
+	void			*win;
+}					t_env;
 
 /*
 *** ----------------- Color ---------------------------
@@ -61,18 +79,6 @@ typedef	union		u_color
 	int				color;
 	t_sub_color		s;
 }					t_color;
-
-/*
-*** ----------------- Environement --------------------
-*/
-
-typedef	struct		s_env
-{
-	int				height;
-	int				width;
-	void			*mlx;
-	void			*win;
-}					t_env;
 
 /*
 *** ----------------- Coords --------------------------
@@ -108,6 +114,14 @@ typedef struct		s_dda_data
 	int				step;
 }					t_dda_data;
 
+typedef struct		s_bres
+{
+	float			tab[6];
+	float			delta;
+	int				eps;
+	int				step;
+}					t_bres;
+
 /*
 *** ----------------- Map -----------------------------
 */
@@ -119,9 +133,10 @@ typedef	struct		s_map
 	int				width;
 	int				height;
 	t_vec2			offset;
-	float			matrix[3][2];		
+	float			matrix[3][2];
 	char			*raw;
 	float			scaling;
+	t_env			*env;
 }					t_map;
 
 /*
@@ -139,6 +154,15 @@ typedef	struct		s_img
 	int				x;
 }					t_img;
 
+/*
+*** ----------------- Keys ----------------------------
+*/
+
+typedef struct		s_key
+{
+	int				keycode;
+	int				(*function)();
+}					t_key;
 
 /*
 *** ----------------- Functions -----------------------
@@ -167,6 +191,14 @@ t_env				create_env(t_env env);
 */
 
 void				draw_line(t_map *map, t_color col, t_env env);
+void				update_offset(float x, float y, t_map *map);
+void				clear_screan();
+
+/*
+*** - Binding
+*/
+
+void				bind(t_env env);
 
 t_img				*create_img(t_img *img, t_env env, int x, int y);
 t_color				set_color(int b, int g, int r, int a);

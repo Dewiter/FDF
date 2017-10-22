@@ -6,7 +6,7 @@
 /*   By: rolevy <rolevy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/01 16:54:33 by rolevy            #+#    #+#             */
-/*   Updated: 2017/10/19 17:51:21 by rolevy           ###   ########.fr       */
+/*   Updated: 2017/10/22 16:09:57 by rolevy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,8 @@
 static inline t_map		*init_matrix(t_map *map)
 {
 	t_fpoint	cam;
-	
+
 	map->scaling = 50;
-	// cam = (t_fpoint){-M_PI / 4, -M_PI / 4, 3 * M_PI / 4};
 	cam = (t_fpoint){-0.65, -0.8, -0.1};
 	map->X_3D_X = (cos(cam.x) * cos(cam.z)
 				- sin(cam.x) * cos(cam.y) * sin(cam.z));
@@ -33,19 +32,44 @@ static inline t_map		*init_matrix(t_map *map)
 	return (map);
 }
 
-int		main(int ac, char **av)
+void					check_file(char **av)
 {
-	t_env	env;
-	t_color	color;
-	t_map	*map;
-
-	if (ac > 0)
+	if (open(av[1], O_RDONLY) < 0)
 	{
+		ft_putstr(RED"FILE DOSN'T EXISTS\n");
+		exit(EXIT_FAILURE);
+	}
+	if (!ft_strstr(av[1], ".fdf"))
+	{
+		ft_putstr(RED"FILE MUST BE OF TYPE .fdf\n");
+		exit(EXIT_FAILURE);
+	}
+}
+
+int						main(int ac, char **av)
+{
+	t_color				color;
+	t_map				*map;
+	t_env				env;
+
+	if (ac >= 1)
+	{
+		check_file(av);
 		env = create_env(env);
-		color = set_color(0, 255, 0, 255);
+		if (ac == 6)
+			color = set_color(ft_atoi(av[2]), ft_atoi(av[3]),
+					ft_atoi(av[4]), ft_atoi(av[5]));
+		else
+		{
+			ft_putstr("\nNot enough color info given setting color to white\n");
+			color = set_color(WHITE);
+		}
 		map = parse(av, env);
 		init_matrix(map);
 		draw_line(map, color, env);
+		bind(env);
 		mlx_loop(env.mlx);
 	}
+	else
+		ft_putstr(RED"please enter a map \n");
 }

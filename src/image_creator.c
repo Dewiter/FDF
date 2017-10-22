@@ -6,9 +6,13 @@
 /*   By: rolevy <rolevy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/01 18:42:36 by rolevy            #+#    #+#             */
-/*   Updated: 2017/10/15 18:24:10 by rolevy           ###   ########.fr       */
+/*   Updated: 2017/10/22 12:24:29 by rolevy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+/*
+*** - Creating Images and setting colors
+*/
 
 #include "../includes/fdf.h"
 
@@ -28,4 +32,9 @@ t_color		set_color(int r, int g, int b, int a)
 
 	color.color = (r << 16) + (g << 8) + (b) + ((a << 24) * -1);
 	return (color);
+}
+
+void		set_pixel(float x, float y, t_img *img, t_color col)
+{
+	*((int *)(img->img_str) + (int)((int)x + (int)(y * 1920))) = col.color;
 }

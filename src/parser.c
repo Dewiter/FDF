@@ -6,7 +6,7 @@
 /*   By: rolevy <rolevy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/06 13:27:26 by rolevy            #+#    #+#             */
-/*   Updated: 2017/10/19 17:56:45 by rolevy           ###   ########.fr       */
+/*   Updated: 2017/10/22 13:35:31 by rolevy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static inline void		set_coords(char **file, t_map *map, t_env env)
 	char				*line;
 	static t_fpoint		*last = NULL;
 	t_fpoint			*current;
-	static int		tab[2] = {0, 0};
+	static int			tab[2] = {0, 0};
 
 	fd = open(file[1], O_RDONLY);
 	while (get_next_line(fd, &line) > 0)
@@ -49,7 +49,7 @@ t_map					*parse(char **file, t_env env)
 	t_map				*map;
 	t_line				*list_line;
 	t_line				*line_holder;
-	
+
 	map = (t_map *)malloc(sizeof(t_map));
 	set_coords(file, map, env);
 	return (map);

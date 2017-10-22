@@ -6,7 +6,7 @@
 /*   By: rolevy <rolevy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/14 20:33:36 by rolevy            #+#    #+#             */
-/*   Updated: 2017/10/16 21:20:53 by rolevy           ###   ########.fr       */
+/*   Updated: 2017/10/20 17:34:20 by rolevy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ t_fpoint	*create_point(int x, int z, char *line)
 
 	point = (t_fpoint *)malloc(sizeof(t_fpoint));
 	point->x = x;
-	point->y = (int)ft_atoi(line);  
+	point->y = (int)ft_atoi(line);
 	point->z = z;
 	point->next = NULL;
 	return (point);
